@@ -3,60 +3,116 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
+
 
 class PostController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
+    {      $allPosts = Post::all();
+    return view('posts.index', [
+        'posts' => $allPosts
+      ]);
+        //return view('posts.index',compact('allPosts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $allPosts = [
-            ['id' => 1 , 'title' => 'laravel ', 'posted_by' => 'logyn', 'creation_date' => '2022-10-22'],
-            ['id' => 2 , 'title' => 'java', 'posted_by' => 'waleed', 'creation_date' => '2022-10-15'],
-            ['id' => 3 , 'title' => 'java', 'posted_by' => 'waleed', 'creation_date' => '2022-10-15']
+       
+        $allUsers = User::all();
 
-        ];
-
-        return view('posts.index', [
-          'posts' => $allPosts
+        return view('posts.create',[
+            'allUsers' => $allUsers
         ]);
     }
 
-    public function create()
-    {
-        return view('posts.create');
-    }
-
-    public function show($id)
-    {
-        $posts = [
-            ['id' => 1, 'title' => 'first post', 'postedBy' => 'logyn', 'createdAt' => '22-10-12'],
-            ['id' => 2, 'title' => 'second post', 'postedBy' => 'waleed', 'createdAt' => '22-10-2'],
-            ['id' => 3, 'title' => 'third post', 'postedBy' => 'Yara', 'createdAt' => '22-10-13']
-        ];
-        return view('posts/show', ['posts' => $posts, 'id' => $id]);
-    }
-    public function edit($id)
-    {
-        $posts = [
-            ['id' => 1, 'title' => 'first post', 'postedBy' => 'logyn', 'createdAt' => '22-10-12'],
-            ['id' => 2, 'title' => 'second post', 'postedBy' => 'waleed', 'createdAt' => '22-10-2'],
-            ['id' => 3, 'title' => 'third post', 'postedBy' => 'Yara', 'createdAt' => '22-10-13']
-        ];
-        $names = ['Ahmed', 'Omar', 'Yara'];
-        return view('posts/edit', ['posts' => $posts, 'id' => $id, 'names' => $names]);
-    }
-    public function update($id)
-    {
-        return redirect()->route('posts.index');
-    }
-
-    public function destroy($id)
-    {
-        return redirect()->route('posts.index');
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store()
     {
-        return redirect()->route('posts.index');
+        $data = request()->all();
+
+        // request()->title
+        // request()->description
+        // request()->post_creator
+        // dd($data, request()->title, request()->post_creator);
+
+        Post::create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'user_id' => $data['post_creator'],
+        ]); //insert into posts ('ahmed','asdasd')
+
+        return to_route('posts.index');
     }
-  
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {    
+        $allPosts = Post::find($id);
+        return view('posts.show',['posts'=>$allPosts ,'id'=>$id]);
+        // return view('posts.show')->with('id',$id);
+        //return view('posts.show',compact('id','name'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $allPosts = Post::find($id);
+        return view('posts.edit',['posts'=>$allPosts ,'id'=>$id]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    // public function update( $id)
+    // {
+    //     $data = request()->all();
+       
+    //     Post::where('id', $id)->update(['title' => $data['update_title'],
+    //     'description' => $data['update_description']]);
+     
+    //     return to_route('posts.index');
+       
+    // }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

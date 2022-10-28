@@ -2,32 +2,26 @@
 
 @section('title') edit @endsection
 @section('content')
-@foreach($posts as $post)
-@if(($post['id']) == $id)
-@endforeach
 
-          <form class="w-50 mt-5 mx-5" method="post" action="{{route('posts.update', $post['id'])}}">
+
+
+    <form class="w-50 mt-5 mx-5"  action="">
     @method('PUT')
     @csrf
     <div class="form-group mb-5">
-        <input type="text" class="form-control" value="{{$post['title']}}">
+        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <input   name="update_title" type="text" class="form-control" value="{{$posts['title']}}">
     </div>
     <div class="form-group mb-5">
-        <textarea type="text" class="form-control" rows="3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita est aut officia quidem non aperiam facilis temporibus laudantium, magnam dolores vero mollitia excepturi porro nostrum id, delectus labore. Repudiandae, suscipit?</textarea>
-    </div class="form-group mb-5">
+        <label for="exampleInputEmail1" class="form-label">Description</label>
+        <textarea   name="update_description" type="text" class="form-control" rows="3">{{$posts['description']}}</textarea>
     <div>
-        <select class="form-select mb-5">
-            @foreach($names as $name)
-            @if($post['postedBy'] == $name)
-            <option selected>{{$name}}</option>
-            @else
-            <option>{{$name}}</option>
-            @endif
-            @endforeach
+        <label for="exampleInputEmail1" class="form-label">Post Creator</label>
+        <select  name="update_postCreator" class="form-select mb-5">
+          <option> {{$posts->user ? $posts->user->name : 'Not Defined'}}</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Edit</button>
+   <button class="btn btn-primary">SAVE</button>
 </form>
-@endif
-@endforeach
+
 @endsection

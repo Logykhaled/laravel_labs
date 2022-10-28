@@ -3,15 +3,15 @@
 @section('title') Show details @endsection
 @section('content')
 <div class="w-50 mt-5 mx-5">
-    @foreach($posts as $post)
-    @if(($post['id']) == $id)
+  
+    @if(($posts['id']) == $id)
     <div class="card">
         <div class="card-header">
             Post Info
         </div>
         <div class="card-body">
-            <div><b>Title:</b> {{$post['title']}}</div><br>
-            <div><b>Description:</b> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore nobis explicabo corporis nam iure, omnis facilis harum modi ea illum quia sapiente sunt mollitia eaque atque ducimus odit voluptatem veniam!</div>
+            <div><b>Title:</b> {{$posts['title']}}</div><br>
+            <div><b>Description:</b> {{$posts['description']}}</div>
         </div>
     </div>
     <div class="card mt-5">
@@ -19,12 +19,11 @@
             Post Creator Info
         </div>
         <div class="card-body">
-            <div><b>Name:</b> {{$post['postedBy']}}</div>
-            <div><b>Email:</b> xyz@gmail.com</div>
-            <div><b>Created at:</b> {{$post['createdAt']}}</div>
+            <div><b>Name:</b> {{$posts->user ? $posts->user->name : 'Not Defined'}}</div>
+            <div><b>Created at:</b> {{$posts['created_at']}}</div>
         </div>
     </div>
 </div>
 @endif
-@endforeach
+
 @endsection

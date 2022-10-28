@@ -1,8 +1,9 @@
+@extends('layouts.app')
 @section('title') Home @endsection
 @section('content')
 <div style="text-align:center">
     <a href="{{route('posts.create')}}" style='font-family:cursive'>
-        <x-button type="success" class="mt-5"><b>Create Post</b></x-button>
+        <button class="mt-5 btn btn-primary">Create Post</button>
     </a>
 </div>
 <table class="table mt-5 w-50 mx-auto" style="text-align:center">
@@ -15,24 +16,21 @@
             <th scope="col">Actions</th>
         </tr>
     </thead>
+
     <tbody>
-        @foreach($posts as $post)
-        <tr>
-            <th scope="row">{{$post['id']}}</th>
-            <td>{{$post['title']}}</td>
-            <td>{{$post['postedBy']}}</td>
-            <td>{{$post['createdAt']}}</td>
-            <td class="d-flex justify-content-around">
-                <a type="button" class="btn btn-info text-white" href="{{route('posts.show', $post['id'])}}">View</a>
-                <a type="button" class="btn btn-primary" href="{{route('posts.edit', $post['id'])}}">Edit</a>
-                <form action="{{route('posts.destroy', $post['id'])}}" method="post">
-                    <input class="btn btn-danger" type="submit" value="Delete" onclick="return confirm('Are you sure?')" />
-                    @method('delete')
-                    @csrf
-                </form>
-            </td>
-        </tr>
-        @endforeach
+    @foreach ($posts as $post)
+      <tr>
+        <td>{{$post['id']}}</th>
+        <td>{{$post['title']}}</td>
+        <td>{{$post->user ? $post->user->name : 'Not Defined'}}</td>
+        <td>{{$post['creation_date']}}</td>
+        <td>
+            <a href="{{route('posts.show',$post['id'])}}" class="btn btn-info">View</a>
+            <a href="{{route('posts.edit',$post['id'])}}" class="btn btn-primary">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+    @endforeach
     </tbody>
 </table>
 
