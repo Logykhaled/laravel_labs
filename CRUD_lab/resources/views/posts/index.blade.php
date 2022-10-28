@@ -3,7 +3,7 @@
 @section('content')
 <div style="text-align:center">
     <a href="{{route('posts.create')}}" style='font-family:cursive'>
-        <button class="mt-5 btn btn-primary">Create Post</button>
+        <button  class="mt-5 btn btn-primary"><b>Create Post</b><button>
     </a>
 </div>
 <table class="table mt-5 w-50 mx-auto" style="text-align:center">
